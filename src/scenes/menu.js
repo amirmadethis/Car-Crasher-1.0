@@ -20,7 +20,7 @@ class Menu extends Phaser.Scene {
         this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // create 'Game Menu' text
-        this.add.text(this.screenCenterX,  this.screenCenterY, "Game Menu", menuTextConfig);
+        this.add.text(this.screenCenterX,  this.screenCenterY, "Game Menu", menuTextConfig).setOrigin(0.5);
     }
 
     update() {
