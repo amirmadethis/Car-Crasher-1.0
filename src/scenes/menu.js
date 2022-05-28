@@ -3,11 +3,11 @@ class Menu extends Phaser.Scene {
         super("menuScene");
     }
     preload() {
-
+        this.load.image('playButton', './assets/playButton.png')
     }
 
     create() {
-        // menu text config
+        // game title text config
         let gameTitleTextConfig = {
             fontFamily: 'Akshar',
             fontSize : '48px',
@@ -16,14 +16,7 @@ class Menu extends Phaser.Scene {
             resolution: 2,
         }
 
-        let instructionTextConfig = {
-            fontFamily: 'Akshar',
-            fontSize : '24px',
-            align: 'left',
-            fixedWidth: 0,
-            resolution: 2,
-        }
-
+        // find center of screen
         this.screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
         this.screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
 
@@ -33,12 +26,19 @@ class Menu extends Phaser.Scene {
         // create 'Game Menu' text
         this.add.text(this.screenCenterX,  this.screenCenterY- 50, "Game Menu", gameTitleTextConfig).setOrigin(0.5);
 
-        this.add.text(this.screenCenterX, this.screenCenterY + 50, "PRESS SPACEBAR TO PLAY", instructionTextConfig).setOrigin(0.5);
+       // create 'Play' button
+        this.playButton = this.add.sprite(this.screenCenterX, this.screenCenterY + 50, 'playButton').setOrigin(0.5);
+        this.playButton.setInteractive();
+        this.playButton.on('pointerdown', () => {
+            this.scene.start('playScene')
+        });
     }
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(this.keySPACE)) {
             this.scene.start('playScene')
         }
+
+        
     }
 }
