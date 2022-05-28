@@ -6,3 +6,5 @@ let gameConfig = {
     autoCenter: true,
 }
 let game = new Phaser.Game(gameConfig);
+
+let keyLEFT, keyRIGHT;
