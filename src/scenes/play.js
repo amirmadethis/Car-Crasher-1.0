@@ -6,6 +6,7 @@ class Play extends Phaser.Scene {
     preload() {
         this.load.image('background', './assets/background.png' );
         this.load.image('playerCar', './assets/playerCar.png');
+        this.load.image('pauseButton', './assets/pauseButton.png');
     }
 
     create() {
@@ -16,6 +17,15 @@ class Play extends Phaser.Scene {
             fixedWidth: 0,
             resolution: 2,
         }
+
+        this.gameIsOver = false
+        this.gameIsPaused = false
+
+        this.pauseButton = this.add.image(32, 32,'pauseButton').setOrigin(0.5);
+        this.pauseButton.setInteractive();
+        this.pauseButton.on('pointerdown', () => {
+            this.pauseUnpause();
+        });
 
         // find center of screen
         this.screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
@@ -37,14 +47,27 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-        // make background scroll
-        this.background.tilePositionY -= .3;
 
         // move car when pressing LEFT or RIGHT arrow keys
-        if (keyLEFT.isDown) {
+        if (keyLEFT.isDown && (!this.gameIsPaused)) {
             this.player.x -= this.player.speed;
-        } else if (keyRIGHT.isDown) {
+        } else if (keyRIGHT.isDown && (!this.gameIsPaused)) {
             this.player.x += this.player.speed;
+        }
+
+        if (!this.gameIsOver && !this.gameIsPaused) {
+            this.background.tilePositionY -= .3;
+        } else {
+            this.background.tilePositionY -= 0;
+        }
+
+    }
+
+    pauseUnpause() {
+        if (this.gameIsPaused) {
+            this.gameIsPaused = false
+        } else if (!this.gameIsPaused) {
+            this.gameIsPaused = true
         }
     }
 }
