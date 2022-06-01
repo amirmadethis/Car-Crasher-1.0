@@ -2,7 +2,7 @@ class PlayerCar extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
-        this.speed = 0.5;
+        this.speed = 200;
     }
 
     create() {

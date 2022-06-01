@@ -24,7 +24,6 @@ class Play extends Phaser.Scene {
 
     create() {
 
-
         let textConfig = {
             fontFamily: 'Akshar',
             fontSize : '24px',
@@ -55,12 +54,12 @@ class Play extends Phaser.Scene {
         
 
         this.leftSide = this.add.tileSprite(this.screenCenterX - 188, this.screenCenterY - 4800, 101, 12000, 'leftSide').setOrigin(0.5);
+        
 
         this.rightSide = this.add.tileSprite(this.screenCenterX + 181, this.screenCenterY - 4800, 115, 12000, 'rightSide').setOrigin(0.5);
+        
 
         this.street = this.add.tileSprite(this.screenCenterX, this.screenCenterY - 4800, 320, 12000, 'street').setOrigin(0.5);
-
-       
 
         // add text 
         this.add.text(this.screenCenterX + 265, this.screenCenterY - 40, "How To Play", textConfig);
@@ -75,15 +74,36 @@ class Play extends Phaser.Scene {
 
         this.pauseText = this.add.text(this.screenCenterX, this.screenCenterY, "PAUSED", textConfig).setOrigin(0.5);
         this.pauseText.alpha = 0;
+
+        this.physics.add.existing(this.leftSide, true);
+        this.physics.add.existing(this.rightSide, true);
+
+        this.physics.add.existing(this.player, false);
+
+        this.player.body.setCollideWorldBounds(true);
+
+        this.leftSide.body.setSize(50,12000);
+
+        this.rightSide.body.setSize(50,12000);
+
+        this.physics.add.collider(this.player, this.leftSide, () => {
+            console.log('collided left');
+        });
+        this.physics.add.collider(this.player, this.rightSide, () => {
+
+            console.log('collided right');
+        });
     }
 
     update() {
 
         // move car when pressing LEFT or RIGHT arrow keys
         if (keyLEFT.isDown && (!this.gameIsPaused)) {
-            this.player.x -= this.player.speed;
+            this.player.body.setVelocityX(-this.player.speed);
         } else if (keyRIGHT.isDown && (!this.gameIsPaused)) {
-            this.player.x += this.player.speed;
+            this.player.body.setVelocityX(this.player.speed);
+        } else {
+            this.player.body.setVelocityX(0);
         }
 
         // pause scrolling of background if game is paused
@@ -96,7 +116,7 @@ class Play extends Phaser.Scene {
             this.rightSide.tilePositionY -= 0;
             this.street.tilePositionY -= 0;
         }
-
+        
     }
 
     pauseUnpause() {
