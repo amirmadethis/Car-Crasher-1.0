@@ -7,9 +7,24 @@ class Play extends Phaser.Scene {
         this.load.image('background', './assets/background.png' );
         this.load.image('playerCar', './assets/playerCar.png');
         this.load.image('pauseButton', './assets/pauseButton.png');
+        this.load.image('leftSide', './assets/leftSide.png');
+        this.load.image('rightSide', './assets/rightSide.png');
+        this.load.image('street', './assets/street.png');
+        this.load.image('cars1', './assets/cars1.png');
+        this.load.image('cars2', './assets/cars2.png');
+        this.load.image('cars3', './assets/cars3.png');
+        this.load.image('cars4', './assets/cars4.png');
+        this.load.image('schoolbus', './assets/schoolbus1.png');
+        this.load.image('trucks1', './assets/trucks1.png');
+        this.load.image('trucks2', './assets/trucks2.png');
+        this.load.image('trucks3', './assets/trucks3.png');
+        this.load.image('trucks4', './assets/trucks4.png');
+        this.load.image('trucks5', './assets/trucks5.png');
     }
 
     create() {
+
+
         let textConfig = {
             fontFamily: 'Akshar',
             fontSize : '24px',
@@ -36,11 +51,20 @@ class Play extends Phaser.Scene {
         });        
 
         // create background
-        this.background = this.add.tileSprite (this.screenCenterX, this.screenCenterY - 1600, 160, 4000, 'background').setOrigin(.5);
+        //this.background = this.add.tileSprite(this.screenCenterX, this.screenCenterY - 1600, 160, 4000, 'background').setOrigin(.5);
+        
+
+        this.leftSide = this.add.tileSprite(this.screenCenterX - 188, this.screenCenterY - 4800, 101, 12000, 'leftSide').setOrigin(0.5);
+
+        this.rightSide = this.add.tileSprite(this.screenCenterX + 181, this.screenCenterY - 4800, 115, 12000, 'rightSide').setOrigin(0.5);
+
+        this.street = this.add.tileSprite(this.screenCenterX, this.screenCenterY - 4800, 320, 12000, 'street').setOrigin(0.5);
+
+       
 
         // add text 
-        this.add.text(this.screenCenterX + 145, this.screenCenterY - 40, "How To Play", textConfig);
-        this.add.text(this.screenCenterX + 125, this.screenCenterY, "left⬅️|➡️right", textConfig);
+        this.add.text(this.screenCenterX + 265, this.screenCenterY - 40, "How To Play", textConfig);
+        this.add.text(this.screenCenterX + 244, this.screenCenterY, "left⬅️|➡️right", textConfig);
 
         // establishing keybind
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -61,10 +85,16 @@ class Play extends Phaser.Scene {
         } else if (keyRIGHT.isDown && (!this.gameIsPaused)) {
             this.player.x += this.player.speed;
         }
+
+        // pause scrolling of background if game is paused
         if (!this.gameIsOver && !this.gameIsPaused) {
-            this.background.tilePositionY -= .3;
+            this.leftSide.tilePositionY -= .5;
+            this.rightSide.tilePositionY -= .5;
+            this.street.tilePositionY -= .5;
         } else {
-            this.background.tilePositionY -= 0;
+            this.leftSide.tilePositionY -= 0;
+            this.rightSide.tilePositionY -= 0;
+            this.street.tilePositionY -= 0;
         }
 
     }
