@@ -77,6 +77,7 @@ class Play extends Phaser.Scene {
 
         // create player
         this.player = new PlayerCar (this, this.screenCenterX + 25, this.screenCenterY + 200, 'playerCar').setOrigin(0.5);
+        this.player.setScale(2.5);
 
         this.pauseText = this.add.text(this.screenCenterX, this.screenCenterY, "PAUSED", textConfig).setOrigin(0.5);
         this.pauseText.alpha = 0;
@@ -167,6 +168,7 @@ class Play extends Phaser.Scene {
 
     spawnObstacles() {
             this.enemy = new Obstacle(this, Phaser.Math.Between(this.screenCenterX - 150, this.screenCenterX + 150), -50, Phaser.Math.RND.pick(this.enemySprites));
+            this.enemy.setScale(2.5);
             this.physics.add.existing(this.enemy);
             this.physics.add.overlap(this.enemy, this.player, (obj1, obj2) => {
                 obj1.destroy();
