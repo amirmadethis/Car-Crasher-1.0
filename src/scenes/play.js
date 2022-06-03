@@ -166,7 +166,7 @@ class Play extends Phaser.Scene {
     }
 
     spawnObstacles() {
-            this.enemy = new Obstacle(this, Phaser.Math.Between(this.screenCenterX - 150, this.screenCenterX + 150), 0, Phaser.Math.RND.pick(this.enemySprites));
+            this.enemy = new Obstacle(this, Phaser.Math.Between(this.screenCenterX - 150, this.screenCenterX + 150), -50, Phaser.Math.RND.pick(this.enemySprites));
             this.physics.add.existing(this.enemy);
             this.physics.add.overlap(this.enemy, this.player, (obj1, obj2) => {
                 obj1.destroy();
