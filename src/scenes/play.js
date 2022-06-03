@@ -20,6 +20,7 @@ class Play extends Phaser.Scene {
         this.load.image('trucks3', './assets/trucks3.png');
         this.load.image('trucks4', './assets/trucks4.png');
         this.load.image('trucks5', './assets/trucks5.png');
+        this.load.image('reset', './assets/reset.png');
     }
 
     create() {
@@ -43,11 +44,18 @@ class Play extends Phaser.Scene {
         this.gameIsPaused = false
 
         // adding pause button
-        this.pauseButton = this.add.image(32, 32,'pauseButton').setOrigin(0.5);
+        this.pauseButton = this.add.image(64, 64,'pauseButton').setOrigin(0.5);
         this.pauseButton.setInteractive();
         this.pauseButton.on('pointerdown', () => {
             this.pauseUnpause();
-        });        
+        });
+        
+        // adding reset button
+        this.resetButton = this.add.image(64, 125,'reset').setOrigin(0.5);
+        this.resetButton.setInteractive();
+        this.resetButton.on('pointerdown', () => {
+            this.resetGame();
+        });    
 
         // create background
         //this.background = this.add.tileSprite(this.screenCenterX, this.screenCenterY - 1600, 160, 4000, 'background').setOrigin(.5);
@@ -127,5 +135,11 @@ class Play extends Phaser.Scene {
             this.gameIsPaused = true
             this.pauseText.alpha = 1
         }
+    }
+
+    resetGame() {
+        this.registry.destroy(); // destroy registry
+        this.events.off();       // disable all active events
+        this.scene.restart();    // restart current scene
     }
 }
