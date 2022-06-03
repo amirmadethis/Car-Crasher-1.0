@@ -68,6 +68,7 @@ class Play extends Phaser.Scene {
         // add text 
         this.add.text(this.screenCenterX + 290, this.screenCenterY - 40, "How To Play", textConfig);
         this.add.text(this.screenCenterX + 270, this.screenCenterY, "left⬅️|➡️right", textConfig);
+        this.add.text(this.screenCenterX + 275, this.screenCenterY + 40, "up ⬆️|⬇️down", textConfig);
 
         // establishing keybind
         this.keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
@@ -104,26 +105,31 @@ class Play extends Phaser.Scene {
             console.log('collided right');
         });
 
+        // array for random sprite usage
         this.enemySprites = ['cars1' , 'cars2', 'cars3', 'cars4', 'schoolbus', 'trucks1', 'trucks2', 'trucks3', 'trucks4', 'trucks5'];
 
-        this.physics.add.collider(this.player, this.enemy, () => {
-            this.player.alpha = 0;
-        });
+        // this.physics.add.collider(this.player, this.enemy, () => {
+        //     this.player.alpha = 0;
+        // });
         
+        // spawning enemies on a timer
         this.time.addEvent({
-            delay:500,
+            delay:300,
             callback: () => {
                 this.spawnObstacles();
             },
             loop: true
         })
+
+        this.scoreText = this.add.text(this.screenCenterX - 400, this.screenCenterY, "SCORE: ", textConfig);
+        this.highScoreText = this.add.text(this.screenCenterX - 400, this.screenCenterY + 35, "HIGHSCORE: ", textConfig);
+        
+
     }
 
     update() {
 
-
-
-        // move car when pressing LEFT or RIGHT arrow keys
+        // move car when pressing LEFT, RIGHT, UP, or DOWN arrow keys
         if (this.keyLEFT.isDown && (!this.gameIsPaused) && (!this.keyDOWN.isDown && !this.keyUP.isDown))  {
             this.player.body.setVelocityX(-this.player.speed);
         } else if (this.keyRIGHT.isDown && (!this.gameIsPaused) && (!this.keyDOWN.isDown && !this.keyUP.isDown)) {
@@ -139,9 +145,9 @@ class Play extends Phaser.Scene {
 
         // pause scrolling of background if game is paused
         if (!this.gameIsOver && !this.gameIsPaused) {
-            this.leftSide.tilePositionY -= .5;
-            this.rightSide.tilePositionY -= .5;
-            this.street.tilePositionY -= .5;
+            this.leftSide.tilePositionY -= 1.5;
+            this.rightSide.tilePositionY -= 1.5;
+            this.street.tilePositionY -= 1.5;
         } else {
             this.leftSide.tilePositionY -= 0;
             this.rightSide.tilePositionY -= 0;
@@ -166,8 +172,9 @@ class Play extends Phaser.Scene {
         this.scene.restart();    // restart current scene
     }
 
+    // spawn random enemies randomly
     spawnObstacles() {
-            this.enemy = new Obstacle(this, Phaser.Math.Between(this.screenCenterX - 150, this.screenCenterX + 150), -50, Phaser.Math.RND.pick(this.enemySprites));
+            this.enemy = new Obstacle(this, Phaser.Math.Between(this.screenCenterX - 150, this.screenCenterX + 150), -100, Phaser.Math.RND.pick(this.enemySprites));
             this.enemy.setScale(2.5);
             this.physics.add.existing(this.enemy);
             this.physics.add.overlap(this.enemy, this.player, (obj1, obj2) => {
