@@ -25,6 +25,7 @@ class Play extends Phaser.Scene {
 
     create() {
 
+        // config for text
         let textConfig = {
             fontFamily: 'Akshar',
             fontSize : '24px',
@@ -57,25 +58,22 @@ class Play extends Phaser.Scene {
             this.resetGame();
         });    
 
-        // create background
-        //this.background = this.add.tileSprite(this.screenCenterX, this.screenCenterY - 1600, 160, 4000, 'background').setOrigin(.5);
-        
-
+        // add boundry sprite
         this.leftSide = this.add.tileSprite(this.screenCenterX - 188, this.screenCenterY - 4800, 101, 12000, 'leftSide').setOrigin(0.5);
-        
-
         this.rightSide = this.add.tileSprite(this.screenCenterX + 181, this.screenCenterY - 4800, 115, 12000, 'rightSide').setOrigin(0.5);
-        
 
+        // add street sprite
         this.street = this.add.tileSprite(this.screenCenterX, this.screenCenterY - 4800, 320, 12000, 'street').setOrigin(0.5);
 
         // add text 
-        this.add.text(this.screenCenterX + 265, this.screenCenterY - 40, "How To Play", textConfig);
-        this.add.text(this.screenCenterX + 244, this.screenCenterY, "left⬅️|➡️right", textConfig);
+        this.add.text(this.screenCenterX + 290, this.screenCenterY - 40, "How To Play", textConfig);
+        this.add.text(this.screenCenterX + 270, this.screenCenterY, "left⬅️|➡️right", textConfig);
 
         // establishing keybind
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        this.keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        this.keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        this.keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
         // create player
         this.player = new PlayerCar (this, this.screenCenterX + 25, this.screenCenterY + 200, 'playerCar').setOrigin(0.5);
@@ -83,17 +81,20 @@ class Play extends Phaser.Scene {
         this.pauseText = this.add.text(this.screenCenterX, this.screenCenterY, "PAUSED", textConfig).setOrigin(0.5);
         this.pauseText.alpha = 0;
 
+        // add physics to boundries
         this.physics.add.existing(this.leftSide, true);
         this.physics.add.existing(this.rightSide, true);
 
+        // add physics to player
         this.physics.add.existing(this.player, false);
+        this.player.body.collideWorldBounds = true;
+        this.player.body.setAllowGravity(false);
 
-        this.player.body.setCollideWorldBounds(true);
+        // setting size for collision size for boundries
+        this.leftSide.body.setSize(55,12000);
+        this.rightSide.body.setSize(40,12000);
 
-        this.leftSide.body.setSize(50,12000);
-
-        this.rightSide.body.setSize(50,12000);
-
+        // add collision between player and boundries
         this.physics.add.collider(this.player, this.leftSide, () => {
             console.log('collided left');
         });
@@ -101,17 +102,38 @@ class Play extends Phaser.Scene {
 
             console.log('collided right');
         });
+
+        this.enemySprites = ['cars1' , 'cars2', 'cars3', 'cars4', 'schoolbus', 'trucks1', 'trucks2', 'trucks3', 'trucks4', 'trucks5'];
+
+        this.physics.add.collider(this.player, this.enemy, () => {
+            this.player.alpha = 0;
+        });
+        
+        this.time.addEvent({
+            delay:500,
+            callback: () => {
+                this.spawnObstacles();
+            },
+            loop: true
+        })
     }
 
     update() {
 
+
+
         // move car when pressing LEFT or RIGHT arrow keys
-        if (keyLEFT.isDown && (!this.gameIsPaused)) {
+        if (this.keyLEFT.isDown && (!this.gameIsPaused) && (!this.keyDOWN.isDown && !this.keyUP.isDown))  {
             this.player.body.setVelocityX(-this.player.speed);
-        } else if (keyRIGHT.isDown && (!this.gameIsPaused)) {
+        } else if (this.keyRIGHT.isDown && (!this.gameIsPaused) && (!this.keyDOWN.isDown && !this.keyUP.isDown)) {
             this.player.body.setVelocityX(this.player.speed);
+        } else if (this.keyUP.isDown && (!this.gameIsPaused) && (!this.keyLEFT.isDown && !this.keyRIGHT.isDown)) {
+            this.player.body.setVelocityY(-this.player.speed);
+        } else if (this.keyDOWN.isDown && (!this.gameIsPaused) && (!this.keyLEFT.isDown && !this.keyRIGHT.isDown)) {
+            this.player.body.setVelocityY(this.player.speed);
         } else {
             this.player.body.setVelocityX(0);
+            this.player.body.setVelocityY(0);
         }
 
         // pause scrolling of background if game is paused
@@ -141,5 +163,13 @@ class Play extends Phaser.Scene {
         this.registry.destroy(); // destroy registry
         this.events.off();       // disable all active events
         this.scene.restart();    // restart current scene
+    }
+
+    spawnObstacles() {
+            this.enemy = new Obstacle(this, Phaser.Math.Between(this.screenCenterX - 150, this.screenCenterX + 150), 0, Phaser.Math.RND.pick(this.enemySprites));
+            this.physics.add.existing(this.enemy);
+            this.physics.add.overlap(this.enemy, this.player, (obj1, obj2) => {
+                obj1.destroy();
+        });
     }
 }

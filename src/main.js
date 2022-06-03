@@ -1,6 +1,6 @@
 let gameConfig = {
     type: Phaser.AUTO,
-    width: 800,
+    width: 900,
     height: 720,
     scene: [Menu, Play],
     autoCenter: true,
@@ -8,7 +8,7 @@ let gameConfig = {
         default: 'arcade',
         arcade: {
             debug: true,
-            gravity: {y : 0}
+            gravity: {y : 200}
 
         }
     }
