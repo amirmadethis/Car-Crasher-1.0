@@ -119,11 +119,13 @@ class Play extends Phaser.Scene {
                 this.spawnObstacles();
             },
             loop: true
-        })
+        });
 
         this.scoreText = this.add.text(this.screenCenterX - 400, this.screenCenterY, "SCORE: ", textConfig);
-        this.highScoreText = this.add.text(this.screenCenterX - 400, this.screenCenterY + 35, "HIGHSCORE: ", textConfig);
-        
+        this.highScoreText = this.add.text(this.screenCenterX - 400, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("HighScoreVar"), textConfig);
+        this.score = 0;
+        this.highScore = 0;
+        this.timer = this.time.addEvent({ delay: 99999999999, callback: this.onClockEvent, callbackScope: this, repeat: 1 });
 
     }
 
@@ -143,17 +145,29 @@ class Play extends Phaser.Scene {
             this.player.body.setVelocityY(0);
         }
 
-        // pause scrolling of background if game is paused
+        // pause scrolling of background if game is paused/over
         if (!this.gameIsOver && !this.gameIsPaused) {
             this.leftSide.tilePositionY -= 1.5;
             this.rightSide.tilePositionY -= 1.5;
             this.street.tilePositionY -= 1.5;
+            this.physics.resume();
         } else {
             this.leftSide.tilePositionY -= 0;
             this.rightSide.tilePositionY -= 0;
             this.street.tilePositionY -= 0;
+            this.physics.pause();
         }
         
+        // while player is still playing game update score
+        if (!this.gameIsPaused && !this.gameIsOver) {
+            this.scoreText.setText("SCORE: " + parseInt(10 * this.timer.getElapsedSeconds()) + '0');
+            this.score = parseInt(parseInt(this.timer.getElapsedSeconds() * 10) + '0');
+        }
+
+        // get rid of null highscore on first play through
+        if (localStorage.getItem("HighScoreVar") == null){
+            this.highScoreText.setText("HIGHSCORE: 0");
+        }
     }
 
     pauseUnpause() {
@@ -174,11 +188,19 @@ class Play extends Phaser.Scene {
 
     // spawn random enemies randomly
     spawnObstacles() {
+        if (!this.gameIsOver && !this.gameIsPaused){
             this.enemy = new Obstacle(this, Phaser.Math.Between(this.screenCenterX - 150, this.screenCenterX + 150), -100, Phaser.Math.RND.pick(this.enemySprites));
             this.enemy.setScale(2.5);
             this.physics.add.existing(this.enemy);
             this.physics.add.overlap(this.enemy, this.player, (obj1, obj2) => {
                 obj1.destroy();
-        });
+            });
+        }
+    }
+
+    highScoreFunc() {
+        if (this.score > localStorage.getItem("HighScoreVar")) {
+            localStorage.setItem("HighScoreVar", this.score)
+        }
     }
 }
