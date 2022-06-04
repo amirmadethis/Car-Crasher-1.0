@@ -121,11 +121,14 @@ class Play extends Phaser.Scene {
             loop: true
         });
 
-        this.scoreText = this.add.text(this.screenCenterX - 400, this.screenCenterY, "SCORE: ", textConfig);
-        this.highScoreText = this.add.text(this.screenCenterX - 400, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("HighScoreVar"), textConfig);
+        this.scoreText = this.add.text(this.screenCenterX - 420, this.screenCenterY, "SCORE: ", textConfig);
+        this.highScoreText = this.add.text(this.screenCenterX - 420, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("HighScoreVar"), textConfig);
         this.score = 0;
         this.highScore = 0;
         this.timer = this.time.addEvent({ delay: 99999999999, callback: this.onClockEvent, callbackScope: this, repeat: 1 });
+
+        this.lives = 3;
+        this.livesText = this.add.text(this.screenCenterX + 300, 100, "Lives: " + this.lives, textConfig)
 
     }
 
@@ -151,11 +154,13 @@ class Play extends Phaser.Scene {
             this.rightSide.tilePositionY -= 1.5;
             this.street.tilePositionY -= 1.5;
             this.physics.resume();
+            this.timer.paused = false;
         } else {
             this.leftSide.tilePositionY -= 0;
             this.rightSide.tilePositionY -= 0;
             this.street.tilePositionY -= 0;
             this.physics.pause();
+            this.timer.paused = true;
         }
         
         // while player is still playing game update score
@@ -168,6 +173,16 @@ class Play extends Phaser.Scene {
         if (localStorage.getItem("HighScoreVar") == null){
             this.highScoreText.setText("HIGHSCORE: 0");
         }
+
+        if (!this.gameIsOver && !this.gameIsPaused) {
+            this.livesText.setText("Lives: " + this.lives)
+        }
+
+        if (this.lives == 0) {
+            this.gameIsOver = true;
+            this.highScoreFunc();
+        }
+
     }
 
     pauseUnpause() {
@@ -194,6 +209,8 @@ class Play extends Phaser.Scene {
             this.physics.add.existing(this.enemy);
             this.physics.add.overlap(this.enemy, this.player, (obj1, obj2) => {
                 obj1.destroy();
+                this.cameras.main.flash();
+                this.lives -= 1;
             });
         }
     }
