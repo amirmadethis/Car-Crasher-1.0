@@ -21,6 +21,7 @@ class Play extends Phaser.Scene {
         this.load.image('trucks4', './assets/trucks4.png');
         this.load.image('trucks5', './assets/trucks5.png');
         this.load.image('reset', './assets/reset.png');
+        this.load.image('gameOverBg', './assets/gameOverBG.png')
     }
 
     create() {
@@ -128,8 +129,16 @@ class Play extends Phaser.Scene {
         this.timer = this.time.addEvent({ delay: 99999999999, callback: this.onClockEvent, callbackScope: this, repeat: 1 });
 
         this.lives = 3;
-        this.livesText = this.add.text(this.screenCenterX + 300, 100, "Lives: " + this.lives, textConfig)
+        this.livesText = this.add.text(this.screenCenterX + 345, 100, "Lives: " + this.lives, textConfig).setOrigin(0.5);
+        this.livesText.setFontSize(36);
 
+        this.gameOverMenu = this.add.image(this.screenCenterX, this.screenCenterY, 'gameOverBg').setOrigin(0.5);
+        this.gameOverMenu.depth = 10;
+        this.gameOverMenu.alpha = 0;
+        this.gameOverText = this.add.text(this.screenCenterX, this.screenCenterY - 100, 'GAME OVER', textConfig).setOrigin(0.5);
+        this.gameOverText.depth = 11;
+        this.gameOverText.setFontSize(36);
+        this.gameOverText.alpha = 0;
     }
 
     update() {
@@ -181,6 +190,10 @@ class Play extends Phaser.Scene {
         if (this.lives == 0) {
             this.gameIsOver = true;
             this.highScoreFunc();
+            this.gameOverMenu.alpha = 1;
+            this.gameOverText.alpha = 1;
+            this.resetButton.setPosition(this.screenCenterX, this.screenCenterY);
+            this.resetButton.depth = 12;
         }
 
     }
