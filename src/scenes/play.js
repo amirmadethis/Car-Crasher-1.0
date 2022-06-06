@@ -122,8 +122,9 @@ class Play extends Phaser.Scene {
             loop: true
         });
 
-        this.scoreText = this.add.text(this.screenCenterX - 420, this.screenCenterY, "SCORE: ", textConfig);
-        this.highScoreText = this.add.text(this.screenCenterX - 420, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("HighScoreVar"), textConfig);
+        this.scoreText = this.add.text(this.screenCenterX - 385, this.screenCenterY, "SCORE: ", textConfig).setOrigin(0.5);
+        this.scoreText.depth = 11;
+        this.highScoreText = this.add.text(this.screenCenterX - 360, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("HighScoreVar"), textConfig).setOrigin(0.5);
         this.score = 0;
         this.highScore = 0;
         this.timer = this.time.addEvent({ delay: 99999999999, callback: this.onClockEvent, callbackScope: this, repeat: 1 });
@@ -132,6 +133,7 @@ class Play extends Phaser.Scene {
         this.livesText = this.add.text(this.screenCenterX + 345, 100, "Lives: " + this.lives, textConfig).setOrigin(0.5);
         this.livesText.setFontSize(36);
 
+        // text for game over menu
         this.gameOverMenu = this.add.image(this.screenCenterX, this.screenCenterY, 'gameOverBg').setOrigin(0.5);
         this.gameOverMenu.depth = 10;
         this.gameOverMenu.alpha = 0;
@@ -139,6 +141,9 @@ class Play extends Phaser.Scene {
         this.gameOverText.depth = 11;
         this.gameOverText.setFontSize(36);
         this.gameOverText.alpha = 0;
+        this.gameOverHighScoreText = this.add.text(this.screenCenterX, this.screenCenterY, 'NEW HIGH SCORE!: ' + this.score, textConfig).setOrigin(0.5);
+        this.gameOverHighScoreText.depth = 11;
+        this.gameOverHighScoreText.alpha = 0;
     }
 
     update() {
@@ -187,13 +192,19 @@ class Play extends Phaser.Scene {
             this.livesText.setText("Lives: " + this.lives)
         }
 
+        if (this.lives == 0 && (this.score > localStorage.getItem("HighScoreVar"))) {
+            this.gameOverHighScoreText.alpha = 1;
+            this.gameOverHighScoreText.setText("NEW HIGH SCORE: " + this.score);
+        }
+
         if (this.lives == 0) {
             this.gameIsOver = true;
             this.highScoreFunc();
             this.gameOverMenu.alpha = 1;
             this.gameOverText.alpha = 1;
-            this.resetButton.setPosition(this.screenCenterX, this.screenCenterY);
+            this.resetButton.setPosition(this.screenCenterX, this.screenCenterY + 75);
             this.resetButton.depth = 12;
+            this.scoreText.setPosition(this.screenCenterX, this.screenCenterY - 50);
         }
 
     }
