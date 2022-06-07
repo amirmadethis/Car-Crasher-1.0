@@ -22,9 +22,17 @@ class Play extends Phaser.Scene {
         this.load.image('trucks5', './assets/trucks5.png');
         this.load.image('reset', './assets/reset.png');
         this.load.image('gameOverBg', './assets/gameOverBG.png')
+        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 32, frameHeight: 32});
     }
 
     create() {
+
+        this.anims.create({
+            key:'explode',
+            frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 5}),
+            framerate: 15,
+            repeat: 0,
+        });
 
         // config for text
         let textConfig = {
@@ -181,6 +189,7 @@ class Play extends Phaser.Scene {
         if (!this.gameIsPaused && !this.gameIsOver) {
             this.scoreText.setText("SCORE: " + parseInt(10 * this.timer.getElapsedSeconds()) + '0');
             this.score = parseInt(parseInt(this.timer.getElapsedSeconds() * 10) + '0');
+            //this.explodeCar();
         }
 
         // get rid of null highscore on first play through
@@ -198,6 +207,7 @@ class Play extends Phaser.Scene {
         }
 
         if (this.lives == 0) {
+            this.explodeCar();
             this.gameIsOver = true;
             this.highScoreFunc();
             this.gameOverMenu.alpha = 1;
@@ -243,5 +253,15 @@ class Play extends Phaser.Scene {
         if (this.score > localStorage.getItem("HighScoreVar")) {
             localStorage.setItem("HighScoreVar", this.score)
         }
+    }
+
+    explodeCar() {
+        this.player.alpha = 0;
+        let boom = this.add.sprite(this.player.x, this.player.y, 'explosion');
+        boom.setScale(2);
+        boom.anims.play('explode');
+        boom.on('animationcomplete', () => {
+            boom.destroy();
+        });
     }
 }
