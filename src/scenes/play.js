@@ -4,28 +4,27 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('background', './assets/background.png' );
-        this.load.image('playerCar', './assets/playerCar.png');
-        this.load.image('pauseButton', './assets/pauseButton.png');
-        this.load.image('leftSide', './assets/leftSide.png');
-        this.load.image('rightSide', './assets/rightSide.png');
-        this.load.image('street', './assets/street.png');
-        this.load.image('cars1', './assets/cars1.png');
-        this.load.image('cars2', './assets/cars2.png');
-        this.load.image('cars3', './assets/cars3.png');
-        this.load.image('cars4', './assets/cars4.png');
-        this.load.image('schoolbus', './assets/schoolbus1.png');
-        this.load.image('trucks1', './assets/trucks1.png');
-        this.load.image('trucks2', './assets/trucks2.png');
-        this.load.image('trucks3', './assets/trucks3.png');
-        this.load.image('trucks4', './assets/trucks4.png');
-        this.load.image('trucks5', './assets/trucks5.png');
-        this.load.image('reset', './assets/reset.png');
-        this.load.image('mute', './assets/mute.png');
-        this.load.image('gameOverBg', './assets/gameOverBG.png');
+        this.load.image('background', './assets/sprites/background.png' );
+        this.load.image('playerCar', './assets/sprites/playerCar.png');
+        this.load.image('pauseButton', './assets/sprites/pauseButton.png');
+        this.load.image('leftSide', './assets/sprites/leftSide.png');
+        this.load.image('rightSide', './assets/sprites/rightSide.png');
+        this.load.image('street', './assets/sprites/street.png');
+        this.load.image('cars1', './assets/sprites/cars1.png');
+        this.load.image('cars2', './assets/sprites/cars2.png');
+        this.load.image('cars3', './assets/sprites/cars3.png');
+        this.load.image('cars4', './assets/sprites/cars4.png');
+        this.load.image('schoolbus', './assets/sprites/schoolbus1.png');
+        this.load.image('trucks1', './assets/sprites/trucks1.png');
+        this.load.image('trucks2', './assets/sprites/trucks2.png');
+        this.load.image('trucks3', './assets/sprites/trucks3.png');
+        this.load.image('trucks4', './assets/sprites/trucks4.png');
+        this.load.image('trucks5', './assets/sprites/trucks5.png');
+        this.load.image('reset', './assets/sprites/reset.png');
+        this.load.image('mute', './assets/sprites/mute.png');
+        this.load.image('gameOverBg', './assets/sprites/gameOverBG.png');
         this.load.audio("bgm", "./assets/SFX/bgSound.wav");
-        this.load.image('gameOverBg', './assets/gameOverBG.png')
-        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 32, frameHeight: 32});
+        this.load.spritesheet('explosion', './assets/sprites/explosion.png', {frameWidth: 32, frameHeight: 32});
     }
 
     create() {
