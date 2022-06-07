@@ -3,7 +3,7 @@ class Menu extends Phaser.Scene {
         super("menuScene");
     }
     preload() {
-        this.load.image('playButton', './assets/playButton.png')
+        this.load.image('playButton', './assets/sprites/playButton.png')
     }
 
     create() {
