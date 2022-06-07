@@ -23,7 +23,6 @@ class Play extends Phaser.Scene {
         this.load.image('reset', './assets/reset.png');
         this.load.image('gameOverBg', './assets/gameOverBG.png');
         this.load.audio("bgm", "./assets/SFX/bgSound.wav");
-        this.load.audio("rev", "./assets/SFX/rev.ogg");
         this.load.image('gameOverBg', './assets/gameOverBG.png')
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 32, frameHeight: 32});
     }
