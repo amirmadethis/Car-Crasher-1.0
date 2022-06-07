@@ -30,15 +30,7 @@ class Menu extends Phaser.Scene {
         this.playButton = this.add.sprite(this.screenCenterX, this.screenCenterY + 50, 'playButton').setOrigin(0.5);
         this.playButton.setInteractive();
         this.playButton.on('pointerdown', () => {
-            this.scene.start('playScene')
+            this.scene.start('playEasyScene')
         });
-    }
-
-    update() {
-        if (Phaser.Input.Keyboard.JustDown(this.keySPACE)) {
-            this.scene.start('playScene')
-        }
-
-        
     }
 }

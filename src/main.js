@@ -2,7 +2,7 @@ let gameConfig = {
     type: Phaser.AUTO,
     width: 900,
     height: 720,
-    scene: [Menu, Play],
+    scene: [Menu, Credits, PlayEasy, PlayHard, PlayNormal, PlayNightmare],
     autoCenter: true,
     physics: {
         default: 'arcade',
