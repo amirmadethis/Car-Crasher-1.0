@@ -21,6 +21,7 @@ class Play extends Phaser.Scene {
         this.load.image('trucks4', './assets/trucks4.png');
         this.load.image('trucks5', './assets/trucks5.png');
         this.load.image('reset', './assets/reset.png');
+        this.load.image('mute', './assets/mute.png');
         this.load.image('gameOverBg', './assets/gameOverBG.png');
         this.load.audio("bgm", "./assets/SFX/bgSound.wav");
         this.load.image('gameOverBg', './assets/gameOverBG.png')
@@ -62,6 +63,9 @@ class Play extends Phaser.Scene {
         this.screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2;
         this.screenCenterY = this.cameras.main.worldView.y + this.cameras.main.height / 2;
 
+        // mute flag
+        this.isMute = false;
+
         // game over flag
         this.gameIsOver = false
 
@@ -81,6 +85,13 @@ class Play extends Phaser.Scene {
         this.resetButton.on('pointerdown', () => {
             this.resetGame();
         });    
+
+        // adding mute button
+        this.muteButton = this.add.image(64, 186,'mute').setOrigin(0.5);
+        this.muteButton.setInteractive();
+        this.muteButton.on('pointerdown', () => {
+            this.muteUnmute();
+        });  
 
         // add boundry sprite
         this.leftSide = this.add.tileSprite(this.screenCenterX - 188, this.screenCenterY - 4800, 101, 12000, 'leftSide').setOrigin(0.5);
@@ -280,5 +291,18 @@ class Play extends Phaser.Scene {
             boom.destroy();
         });
         this.bgMusic.stop();
+    }
+
+    muteUnmute(){
+        if(this.isMute){
+            this.bgMusic.play();
+            this.isMute = false;
+        }
+
+        else if(!this.isMute)
+        {
+            this.bgMusic.pause();
+            this.isMute = true;
+        }
     }
 }
