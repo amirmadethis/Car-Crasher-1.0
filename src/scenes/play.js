@@ -21,9 +21,14 @@ class Play extends Phaser.Scene {
         this.load.image('trucks4', './assets/trucks4.png');
         this.load.image('trucks5', './assets/trucks5.png');
         this.load.image('reset', './assets/reset.png');
+<<<<<<< HEAD
         this.load.image('gameOverBg', './assets/gameOverBG.png');
         this.load.audio("bgm", "./assets/SFX/bgSound.wav");
         this.load.audio("rev", "./assets/SFX/rev.wav");
+=======
+        this.load.image('gameOverBg', './assets/gameOverBG.png')
+        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 32, frameHeight: 32});
+>>>>>>> f66c7568d6b900c52d634ba4e211c73c585ba831
     }
 
     create() {
@@ -38,6 +43,13 @@ class Play extends Phaser.Scene {
             delay: 0
         }
         this.bgMusic.play(musicConfig);
+
+        this.anims.create({
+            key:'explode',
+            frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 5}),
+            framerate: 15,
+            repeat: 0,
+        });
 
         // config for text
         let textConfig = {
@@ -135,8 +147,9 @@ class Play extends Phaser.Scene {
             loop: true
         });
 
-        this.scoreText = this.add.text(this.screenCenterX - 420, this.screenCenterY, "SCORE: ", textConfig);
-        this.highScoreText = this.add.text(this.screenCenterX - 420, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("HighScoreVar"), textConfig);
+        this.scoreText = this.add.text(this.screenCenterX - 385, this.screenCenterY, "SCORE: ", textConfig).setOrigin(0.5);
+        this.scoreText.depth = 11;
+        this.highScoreText = this.add.text(this.screenCenterX - 360, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("HighScoreVar"), textConfig).setOrigin(0.5);
         this.score = 0;
         this.highScore = 0;
         this.timer = this.time.addEvent({ delay: 99999999999, callback: this.onClockEvent, callbackScope: this, repeat: 1 });
@@ -145,6 +158,7 @@ class Play extends Phaser.Scene {
         this.livesText = this.add.text(this.screenCenterX + 345, 100, "Lives: " + this.lives, textConfig).setOrigin(0.5);
         this.livesText.setFontSize(36);
 
+        // text for game over menu
         this.gameOverMenu = this.add.image(this.screenCenterX, this.screenCenterY, 'gameOverBg').setOrigin(0.5);
         this.gameOverMenu.depth = 10;
         this.gameOverMenu.alpha = 0;
@@ -152,6 +166,9 @@ class Play extends Phaser.Scene {
         this.gameOverText.depth = 11;
         this.gameOverText.setFontSize(36);
         this.gameOverText.alpha = 0;
+        this.gameOverHighScoreText = this.add.text(this.screenCenterX, this.screenCenterY, 'NEW HIGH SCORE!: ' + this.score, textConfig).setOrigin(0.5);
+        this.gameOverHighScoreText.depth = 11;
+        this.gameOverHighScoreText.alpha = 0;
     }
 
     update() {
@@ -189,6 +206,7 @@ class Play extends Phaser.Scene {
         if (!this.gameIsPaused && !this.gameIsOver) {
             this.scoreText.setText("SCORE: " + parseInt(10 * this.timer.getElapsedSeconds()) + '0');
             this.score = parseInt(parseInt(this.timer.getElapsedSeconds() * 10) + '0');
+            //this.explodeCar();
         }
 
         // get rid of null highscore on first play through
@@ -200,13 +218,20 @@ class Play extends Phaser.Scene {
             this.livesText.setText("Lives: " + this.lives)
         }
 
+        if (this.lives == 0 && (this.score > localStorage.getItem("HighScoreVar"))) {
+            this.gameOverHighScoreText.alpha = 1;
+            this.gameOverHighScoreText.setText("NEW HIGH SCORE: " + this.score);
+        }
+
         if (this.lives == 0) {
+            this.explodeCar();
             this.gameIsOver = true;
             this.highScoreFunc();
             this.gameOverMenu.alpha = 1;
             this.gameOverText.alpha = 1;
-            this.resetButton.setPosition(this.screenCenterX, this.screenCenterY);
+            this.resetButton.setPosition(this.screenCenterX, this.screenCenterY + 75);
             this.resetButton.depth = 12;
+            this.scoreText.setPosition(this.screenCenterX, this.screenCenterY - 50);
         }
 
     }
@@ -245,5 +270,15 @@ class Play extends Phaser.Scene {
         if (this.score > localStorage.getItem("HighScoreVar")) {
             localStorage.setItem("HighScoreVar", this.score)
         }
+    }
+
+    explodeCar() {
+        this.player.alpha = 0;
+        let boom = this.add.sprite(this.player.x, this.player.y, 'explosion');
+        boom.setScale(2);
+        boom.anims.play('explode');
+        boom.on('animationcomplete', () => {
+            boom.destroy();
+        });
     }
 }
