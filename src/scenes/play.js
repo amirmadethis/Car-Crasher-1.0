@@ -21,10 +21,23 @@ class Play extends Phaser.Scene {
         this.load.image('trucks4', './assets/trucks4.png');
         this.load.image('trucks5', './assets/trucks5.png');
         this.load.image('reset', './assets/reset.png');
-        this.load.image('gameOverBg', './assets/gameOverBG.png')
+        this.load.image('gameOverBg', './assets/gameOverBG.png');
+        this.load.audio("bgm", "./assets/SFX/bgSound.wav");
+        this.load.audio("rev", "./assets/SFX/rev.wav");
     }
 
     create() {
+        this.bgMusic = this.sound.add("bgm");
+        let musicConfig = {
+            mute: false,
+            volume: 0.2,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+        this.bgMusic.play(musicConfig);
 
         // config for text
         let textConfig = {
