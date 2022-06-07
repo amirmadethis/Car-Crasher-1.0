@@ -23,13 +23,14 @@ class Play extends Phaser.Scene {
         this.load.image('reset', './assets/reset.png');
         this.load.image('gameOverBg', './assets/gameOverBG.png');
         this.load.audio("bgm", "./assets/SFX/bgSound.wav");
-        this.load.audio("rev", "./assets/SFX/rev.wav");
+        this.load.audio("rev", "./assets/SFX/rev.ogg");
         this.load.image('gameOverBg', './assets/gameOverBG.png')
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 32, frameHeight: 32});
     }
 
     create() {
         this.bgMusic = this.sound.add("bgm");
+
         let musicConfig = {
             mute: false,
             volume: 0.2,
@@ -39,6 +40,7 @@ class Play extends Phaser.Scene {
             loop: true,
             delay: 0
         }
+
         this.bgMusic.play(musicConfig);
 
         this.anims.create({
@@ -244,6 +246,7 @@ class Play extends Phaser.Scene {
     }
 
     resetGame() {
+        this.bgMusic.stop();
         this.registry.destroy(); // destroy registry
         this.events.off();       // disable all active events
         this.scene.restart();    // restart current scene
@@ -277,5 +280,6 @@ class Play extends Phaser.Scene {
         boom.on('animationcomplete', () => {
             boom.destroy();
         });
+        this.bgMusic.stop();
     }
 }
