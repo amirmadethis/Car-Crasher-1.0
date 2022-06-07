@@ -21,14 +21,11 @@ class Play extends Phaser.Scene {
         this.load.image('trucks4', './assets/trucks4.png');
         this.load.image('trucks5', './assets/trucks5.png');
         this.load.image('reset', './assets/reset.png');
-<<<<<<< HEAD
         this.load.image('gameOverBg', './assets/gameOverBG.png');
         this.load.audio("bgm", "./assets/SFX/bgSound.wav");
         this.load.audio("rev", "./assets/SFX/rev.wav");
-=======
         this.load.image('gameOverBg', './assets/gameOverBG.png')
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 32, frameHeight: 32});
->>>>>>> f66c7568d6b900c52d634ba4e211c73c585ba831
     }
 
     create() {
