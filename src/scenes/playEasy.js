@@ -22,6 +22,7 @@ class PlayEasy extends Phaser.Scene {
         this.load.image('trucks5', './assets/sprites/trucks5.png');
         this.load.image('reset', './assets/sprites/reset.png');
         this.load.image('mute', './assets/sprites/mute.png');
+        this.load.image('lives', './assets/sprites/lives.png');
         this.load.image('gameOverBg', './assets/sprites/gameOverBG.png');
         this.load.audio("bgm", "./assets/SFX/soundtrack.wav");
         this.load.audio("hit", "./assets/SFX/hit.wav");
@@ -175,7 +176,8 @@ class PlayEasy extends Phaser.Scene {
         this.lives = 3;
 
         // adding "lives" text
-        this.livesText = this.add.text(this.screenCenterX + 345, 100, "Lives: " + this.lives, textConfig).setOrigin(0.5);
+        this.add.image(837, 64,'lives').setOrigin(0.5);
+        this.livesText = this.add.text(this.screenCenterX + 345, 64, this.lives, textConfig).setOrigin(0.5);
         this.livesText.setFontSize(36);
 
         // text for game over menu
@@ -236,7 +238,7 @@ class PlayEasy extends Phaser.Scene {
 
         // constantly update "lives text"
         if (!this.gameIsOver && !this.gameIsPaused) {
-            this.livesText.setText("Lives: " + this.lives)
+            this.livesText.setText(" " + this.lives)
         }
 
         // show player's new highscore

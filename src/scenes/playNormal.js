@@ -22,6 +22,7 @@ class PlayNormal extends Phaser.Scene {
         this.load.image('trucks5', './assets/sprites/trucks5.png');
         this.load.image('reset', './assets/sprites/reset.png');
         this.load.image('mute', './assets/sprites/mute.png');
+        this.load.image('lives', './assets/sprites/lives.png');
         this.load.image('gameOverBg', './assets/sprites/gameOverBG.png');
         this.load.audio("bgm", "./assets/SFX/soundtrack.wav");
         this.load.audio("hit", "./assets/SFX/hit.wav");
@@ -168,7 +169,9 @@ class PlayNormal extends Phaser.Scene {
         this.timer = this.time.addEvent({ delay: 99999999999, callback: this.onClockEvent, callbackScope: this, repeat: 1 });
 
         this.lives = 3;
-        this.livesText = this.add.text(this.screenCenterX + 345, 100, "Lives: " + this.lives, textConfig).setOrigin(0.5);
+        // adding "lives" text
+        this.add.image(837, 64,'lives').setOrigin(0.5);
+        this.livesText = this.add.text(this.screenCenterX + 345, 64, this.lives, textConfig).setOrigin(0.5);
         this.livesText.setFontSize(36);
 
         // text for game over menu
@@ -228,7 +231,7 @@ class PlayNormal extends Phaser.Scene {
         }
 
         if (!this.gameIsOver && !this.gameIsPaused) {
-            this.livesText.setText("Lives: " + this.lives)
+            this.livesText.setText(" " + this.lives)
         }
 
         if (this.lives == 0 && (this.score > localStorage.getItem("NormalHighScoreVar"))) {

@@ -25,6 +25,7 @@ class PlayNightmare extends Phaser.Scene {
         this.load.image('gameOverBg', './assets/sprites/gameOverBG.png');
         this.load.audio("bgm", "./assets/SFX/soundtrack.wav");
         this.load.audio("hit", "./assets/SFX/hit.wav");
+        this.load.image('lives', './assets/sprites/lives.png');
         this.load.spritesheet('explosion', './assets/sprites/explosion.png', {frameWidth: 32, frameHeight: 32});
         this.load.image('nmleftSide', './assets/sprites/nmleftSide.png');
         this.load.image('nmrightSide', './assets/sprites/nmrightSide.png');
@@ -170,7 +171,9 @@ class PlayNightmare extends Phaser.Scene {
         this.timer = this.time.addEvent({ delay: 99999999999, callback: this.onClockEvent, callbackScope: this, repeat: 1 });
 
         this.lives = 3;
-        this.livesText = this.add.text(this.screenCenterX + 345, 100, "Lives: " + this.lives, textConfig).setOrigin(0.5);
+        // adding "lives" text
+        this.add.image(837, 64,'lives').setOrigin(0.5);
+        this.livesText = this.add.text(this.screenCenterX + 345, 64, this.lives, textConfig).setOrigin(0.5);
         this.livesText.setFontSize(36);
 
         // text for game over menu
@@ -230,7 +233,7 @@ class PlayNightmare extends Phaser.Scene {
         }
 
         if (!this.gameIsOver && !this.gameIsPaused) {
-            this.livesText.setText("Lives: " + this.lives)
+            this.livesText.setText(" " + this.lives)
         }
 
         if (this.lives == 0 && (this.score > localStorage.getItem("NightmareHighScoreVar"))) {
