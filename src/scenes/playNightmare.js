@@ -225,12 +225,12 @@ class PlayNightmare extends Phaser.Scene {
         // adding pause function
         if(this.gameIsPaused)
         {
-            // adding mute button
+            // adding play button
             this.pauseButton = this.add.image(64, 64,'play').setOrigin(0.5);
         }
         else if(!this.gameIsPaused)
         {
-            // adding mute button
+            // adding pause button
             this.pauseButton = this.add.image(64, 64,'pauseButton').setOrigin(0.5);
         }
 
