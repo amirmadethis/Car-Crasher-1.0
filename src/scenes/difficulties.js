@@ -71,11 +71,11 @@ class Difficulties extends Phaser.Scene {
             this.scene.start("playNightmareScene")
         })
 
-   }
-   
-   update() {
-    
-   }
+        this.backButton = this.add.text(this.screenCenterX - 400, this.screenCenterY + 300, '↩️',textConfig).setOrigin(0.5);
+        this.backButton.setInteractive();
+        this.backButton.on('pointerdown', () => {
+            this.scene.start('menuScene');
+        })
 
-
+   }
 }
