@@ -10,7 +10,7 @@ class Difficulties extends Phaser.Scene {
     create() {
 
         let textConfig = {
-            fontFamily: 'Akshar',
+            fontFamily: 'Arcade',
             fontSize : '48px',
             align: 'left',
             fixedWidth: 0,

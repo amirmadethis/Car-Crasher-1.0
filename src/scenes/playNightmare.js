@@ -7,24 +7,28 @@ class PlayNightmare extends Phaser.Scene {
         this.load.image('background', './assets/sprites/background.png' );
         this.load.image('playerCar', './assets/sprites/playerCar.png');
         this.load.image('pauseButton', './assets/sprites/pauseButton.png');
-        this.load.image('leftSide', './assets/sprites/leftSide.png');
-        this.load.image('rightSide', './assets/sprites/rightSide.png');
-        this.load.image('street', './assets/sprites/street.png');
-        this.load.image('cars1', './assets/sprites/cars1.png');
-        this.load.image('cars2', './assets/sprites/cars2.png');
-        this.load.image('cars3', './assets/sprites/cars3.png');
-        this.load.image('cars4', './assets/sprites/cars4.png');
-        this.load.image('schoolbus', './assets/sprites/schoolbus1.png');
-        this.load.image('trucks1', './assets/sprites/trucks1.png');
-        this.load.image('trucks2', './assets/sprites/trucks2.png');
-        this.load.image('trucks3', './assets/sprites/trucks3.png');
-        this.load.image('trucks4', './assets/sprites/trucks4.png');
-        this.load.image('trucks5', './assets/sprites/trucks5.png');
+        this.load.image('cars1', './assets/sprites/nmCar1.png');
+        this.load.image('cars2', './assets/sprites/nmCar2.png');
+        this.load.image('cars3', './assets/sprites/nmCar3.png');
+        this.load.image('cars4', './assets/sprites/nmCar4.png');
+        this.load.image('schoolbus', './assets/sprites/nmBus1.png');
+        this.load.image('trucks1', './assets/sprites/nmTruck1.png');
+        this.load.image('trucks2', './assets/sprites/nmTruck2.png');
+        this.load.image('trucks3', './assets/sprites/nmTruck3.png');
+        this.load.image('trucks4', './assets/sprites/nmTruck4.png');
+        this.load.image('trucks5', './assets/sprites/nmTruck5.png');
+        this.load.image('trucks6', './assets/sprites/nmTruck6.png');
+        this.load.image('trucks7', './assets/sprites/nmTruck7.png');
+        this.load.image('trucks8', './assets/sprites/nmTruck8.png'); 
         this.load.image('reset', './assets/sprites/reset.png');
         this.load.image('mute', './assets/sprites/mute.png');
         this.load.image('gameOverBg', './assets/sprites/gameOverBG.png');
-        this.load.audio("bgm", "./assets/SFX/bgSound.wav");
+        this.load.audio("bgm", "./assets/SFX/soundtrack.wav");
+        this.load.audio("hit", "./assets/SFX/hit.wav");
         this.load.spritesheet('explosion', './assets/sprites/explosion.png', {frameWidth: 32, frameHeight: 32});
+        this.load.image('nmleftSide', './assets/sprites/nmleftSide.png');
+        this.load.image('nmrightSide', './assets/sprites/nmrightSide.png');
+        this.load.image('nmStreet', './assets/sprites/nmStreet.png');
     }
 
     create() {
@@ -93,11 +97,11 @@ class PlayNightmare extends Phaser.Scene {
         });  
 
         // add boundry sprite
-        this.leftSide = this.add.tileSprite(this.screenCenterX - 188, this.screenCenterY - 4800, 101, 12000, 'leftSide').setOrigin(0.5);
-        this.rightSide = this.add.tileSprite(this.screenCenterX + 181, this.screenCenterY - 4800, 115, 12000, 'rightSide').setOrigin(0.5);
+        this.leftSide = this.add.tileSprite(this.screenCenterX - 188, this.screenCenterY - 4800, 101, 12000, 'nmleftSide').setOrigin(0.5);
+        this.rightSide = this.add.tileSprite(this.screenCenterX + 181, this.screenCenterY - 4800, 115, 12000, 'nmrightSide').setOrigin(0.5);
 
         // add street sprite
-        this.street = this.add.tileSprite(this.screenCenterX, this.screenCenterY - 4800, 320, 12000, 'street').setOrigin(0.5);
+        this.street = this.add.tileSprite(this.screenCenterX, this.screenCenterY - 4800, 320, 12000, 'nmStreet').setOrigin(0.5);
 
         // add text 
         this.add.text(this.screenCenterX + 290, this.screenCenterY - 40, "How To Play", textConfig);
@@ -140,7 +144,7 @@ class PlayNightmare extends Phaser.Scene {
         });
 
         // array for random sprite usage
-        this.enemySprites = ['cars1' , 'cars2', 'cars3', 'cars4', 'schoolbus', 'trucks1', 'trucks2', 'trucks3', 'trucks4', 'trucks5'];
+        this.enemySprites = ['cars1' , 'cars2', 'cars3', 'cars4', 'schoolbus', 'trucks1', 'trucks2', 'trucks3', 'trucks4', 'trucks5', 'trucks6', 'trucks7', 'trucks8'];
 
         // this.physics.add.collider(this.player, this.enemy, () => {
         //     this.player.alpha = 0;
@@ -148,7 +152,7 @@ class PlayNightmare extends Phaser.Scene {
         
         // spawning enemies on a timer
         this.time.addEvent({
-            delay:300,
+            delay:150,
             callback: () => {
                 this.spawnObstacles();
             },
@@ -157,7 +161,7 @@ class PlayNightmare extends Phaser.Scene {
 
         this.scoreText = this.add.text(this.screenCenterX - 385, this.screenCenterY, "SCORE: ", textConfig).setOrigin(0.5);
         this.scoreText.depth = 11;
-        this.highScoreText = this.add.text(this.screenCenterX - 360, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("HighScoreVar"), textConfig).setOrigin(0.5);
+        this.highScoreText = this.add.text(this.screenCenterX - 360, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("NightmareHighScoreVar"), textConfig).setOrigin(0.5);
         this.score = 0;
         this.highScore = 0;
         this.timer = this.time.addEvent({ delay: 99999999999, callback: this.onClockEvent, callbackScope: this, repeat: 1 });
@@ -218,7 +222,7 @@ class PlayNightmare extends Phaser.Scene {
         }
 
         // get rid of null highscore on first play through
-        if (localStorage.getItem("HighScoreVar") == null){
+        if (localStorage.getItem("NightmareHighScoreVar") == null){
             this.highScoreText.setText("HIGHSCORE: 0");
         }
 
@@ -226,7 +230,7 @@ class PlayNightmare extends Phaser.Scene {
             this.livesText.setText("Lives: " + this.lives)
         }
 
-        if (this.lives == 0 && (this.score > localStorage.getItem("HighScoreVar"))) {
+        if (this.lives == 0 && (this.score > localStorage.getItem("NightmareHighScoreVar"))) {
             this.gameOverHighScoreText.alpha = 1;
             this.gameOverHighScoreText.setText("NEW HIGH SCORE: " + this.score);
         }
@@ -276,8 +280,8 @@ class PlayNightmare extends Phaser.Scene {
     }
 
     highScoreFunc() {
-        if (this.score > localStorage.getItem("HighScoreVar")) {
-            localStorage.setItem("HighScoreVar", this.score)
+        if (this.score > localStorage.getItem("NightmareHighScoreVar")) {
+            localStorage.setItem("NightmareHighScoreVar", this.score)
         }
     }
 

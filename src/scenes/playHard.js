@@ -23,7 +23,8 @@ class PlayHard extends Phaser.Scene {
         this.load.image('reset', './assets/sprites/reset.png');
         this.load.image('mute', './assets/sprites/mute.png');
         this.load.image('gameOverBg', './assets/sprites/gameOverBG.png');
-        this.load.audio("bgm", "./assets/SFX/bgSound.wav");
+        this.load.audio("bgm", "./assets/SFX/soundtrack.wav");
+        this.load.audio("hit", "./assets/SFX/hit.wav");
         this.load.spritesheet('explosion', './assets/sprites/explosion.png', {frameWidth: 32, frameHeight: 32});
     }
 
@@ -148,7 +149,7 @@ class PlayHard extends Phaser.Scene {
         
         // spawning enemies on a timer
         this.time.addEvent({
-            delay:300,
+            delay:250,
             callback: () => {
                 this.spawnObstacles();
             },
@@ -157,7 +158,7 @@ class PlayHard extends Phaser.Scene {
 
         this.scoreText = this.add.text(this.screenCenterX - 385, this.screenCenterY, "SCORE: ", textConfig).setOrigin(0.5);
         this.scoreText.depth = 11;
-        this.highScoreText = this.add.text(this.screenCenterX - 360, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("HighScoreVar"), textConfig).setOrigin(0.5);
+        this.highScoreText = this.add.text(this.screenCenterX - 360, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("HardHighScoreVar"), textConfig).setOrigin(0.5);
         this.score = 0;
         this.highScore = 0;
         this.timer = this.time.addEvent({ delay: 99999999999, callback: this.onClockEvent, callbackScope: this, repeat: 1 });
@@ -218,7 +219,7 @@ class PlayHard extends Phaser.Scene {
         }
 
         // get rid of null highscore on first play through
-        if (localStorage.getItem("HighScoreVar") == null){
+        if (localStorage.getItem("HardHighScoreVar") == null){
             this.highScoreText.setText("HIGHSCORE: 0");
         }
 
@@ -226,7 +227,7 @@ class PlayHard extends Phaser.Scene {
             this.livesText.setText("Lives: " + this.lives)
         }
 
-        if (this.lives == 0 && (this.score > localStorage.getItem("HighScoreVar"))) {
+        if (this.lives == 0 && (this.score > localStorage.getItem("HardHighScoreVar"))) {
             this.gameOverHighScoreText.alpha = 1;
             this.gameOverHighScoreText.setText("NEW HIGH SCORE: " + this.score);
         }
@@ -276,8 +277,8 @@ class PlayHard extends Phaser.Scene {
     }
 
     highScoreFunc() {
-        if (this.score > localStorage.getItem("HighScoreVar")) {
-            localStorage.setItem("HighScoreVar", this.score)
+        if (this.score > localStorage.getItem("HardHighScoreVar")) {
+            localStorage.setItem("HardHighScoreVar", this.score)
         }
     }
 

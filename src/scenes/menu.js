@@ -9,7 +9,7 @@ class Menu extends Phaser.Scene {
     create() {
         // game title text config
         let gameTitleTextConfig = {
-            fontFamily: 'Akshar',
+            fontFamily: 'Arcade',
             fontSize : '48px',
             align: 'left',
             fixedWidth: 0,
@@ -30,7 +30,7 @@ class Menu extends Phaser.Scene {
         this.playButton = this.add.sprite(this.screenCenterX, this.screenCenterY + 50, 'playButton').setOrigin(0.5);
         this.playButton.setInteractive();
         this.playButton.on('pointerdown', () => {
-            this.scene.start('difficultiesScene')
+            this.scene.start('difficultiesScene');
         });
     }
 }

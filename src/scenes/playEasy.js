@@ -23,13 +23,20 @@ class PlayEasy extends Phaser.Scene {
         this.load.image('reset', './assets/sprites/reset.png');
         this.load.image('mute', './assets/sprites/mute.png');
         this.load.image('gameOverBg', './assets/sprites/gameOverBG.png');
-        this.load.audio("bgm", "./assets/SFX/bgSound.wav");
+        this.load.audio("bgm", "./assets/SFX/soundtrack.wav");
+        this.load.audio("hit", "./assets/SFX/hit.wav");
         this.load.spritesheet('explosion', './assets/sprites/explosion.png', {frameWidth: 32, frameHeight: 32});
     }
 
     create() {
+
+        // initialize music
         this.bgMusic = this.sound.add("bgm");
 
+        // initialize hit sound
+        this.hitSound = this.sound.add("hit");
+
+        // config for music
         let musicConfig = {
             mute: false,
             volume: 0.2,
@@ -40,8 +47,10 @@ class PlayEasy extends Phaser.Scene {
             delay: 0
         }
 
+        // play music
         this.bgMusic.play(musicConfig);
 
+        // animation config for explosion
         this.anims.create({
             key:'explode',
             frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 5}),
@@ -51,7 +60,7 @@ class PlayEasy extends Phaser.Scene {
 
         // config for text
         let textConfig = {
-            fontFamily: 'Akshar',
+            fontFamily: 'Arcade',
             fontSize : '24px',
             align: 'left',
             fixedWidth: 0,
@@ -142,27 +151,35 @@ class PlayEasy extends Phaser.Scene {
         // array for random sprite usage
         this.enemySprites = ['cars1' , 'cars2', 'cars3', 'cars4', 'schoolbus', 'trucks1', 'trucks2', 'trucks3', 'trucks4', 'trucks5'];
 
-        // this.physics.add.collider(this.player, this.enemy, () => {
-        //     this.player.alpha = 0;
-        // });
-        
         // spawning enemies on a timer
         this.time.addEvent({
-            delay:500,
+            delay:600,
             callback: () => {
                 this.spawnObstacles();
             },
             loop: true
         });
 
+        // adding score text
         this.scoreText = this.add.text(this.screenCenterX - 385, this.screenCenterY, "SCORE: ", textConfig).setOrigin(0.5);
         this.scoreText.depth = 11;
-        this.highScoreText = this.add.text(this.screenCenterX - 360, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("HighScoreVar"), textConfig).setOrigin(0.5);
+
+        // adding high score text
+        this.highScoreText = this.add.text(this.screenCenterX - 360, this.screenCenterY + 35, "HIGHSCORE: " + localStorage.getItem("EasyHighScoreVar"), textConfig).setOrigin(0.5);
+        
+        // initializing score
         this.score = 0;
+
+        // initializing high score
         this.highScore = 0;
+
+        // creating timer
         this.timer = this.time.addEvent({ delay: 99999999999, callback: this.onClockEvent, callbackScope: this, repeat: 1 });
 
+        // initializing lives
         this.lives = 3;
+
+        // adding "lives" text
         this.livesText = this.add.text(this.screenCenterX + 345, 100, "Lives: " + this.lives, textConfig).setOrigin(0.5);
         this.livesText.setFontSize(36);
 
@@ -218,19 +235,22 @@ class PlayEasy extends Phaser.Scene {
         }
 
         // get rid of null highscore on first play through
-        if (localStorage.getItem("HighScoreVar") == null){
+        if (localStorage.getItem("EasyHighScoreVar") == null){
             this.highScoreText.setText("HIGHSCORE: 0");
         }
 
+        // constantly update "lives text"
         if (!this.gameIsOver && !this.gameIsPaused) {
             this.livesText.setText("Lives: " + this.lives)
         }
 
-        if (this.lives == 0 && (this.score > localStorage.getItem("HighScoreVar"))) {
+        // show player's new highscore
+        if (this.lives == 0 && (this.score > localStorage.getItem("EasyHighScoreVar"))) {
             this.gameOverHighScoreText.alpha = 1;
             this.gameOverHighScoreText.setText("NEW HIGH SCORE: " + this.score);
         }
 
+        // if player dies
         if (this.lives == 0) {
             this.explodeCar();
             this.gameIsOver = true;
@@ -268,6 +288,10 @@ class PlayEasy extends Phaser.Scene {
             this.enemy.setScale(2.5);
             this.physics.add.existing(this.enemy);
             this.physics.add.overlap(this.enemy, this.player, (obj1, obj2) => {
+                let hitConfig = {
+                    volume:0.2
+                };
+                this.hitSound.play(hitConfig);
                 obj1.destroy();
                 this.cameras.main.flash();
                 this.lives -= 1;
@@ -276,8 +300,8 @@ class PlayEasy extends Phaser.Scene {
     }
 
     highScoreFunc() {
-        if (this.score > localStorage.getItem("HighScoreVar")) {
-            localStorage.setItem("HighScoreVar", this.score)
+        if (this.score > localStorage.getItem("EasyHighScoreVar")) {
+            localStorage.setItem("EasyHighScoreVar", this.score)
         }
     }
 
