@@ -28,6 +28,9 @@ class Difficulties extends Phaser.Scene {
         this.easyDifficulty.on("pointerover", () => {
             this.easyDifficulty.setColor('#FF0000');  
         });
+        this.easyDifficulty.on("pointerout", () => {
+            this.easyDifficulty.setColor('#FFFFFF');  
+        });
         this.easyDifficulty.on("pointerdown", () => {
             this.scene.start("playEasyScene")
         });
@@ -36,6 +39,9 @@ class Difficulties extends Phaser.Scene {
         this.normalDifficulty.setInteractive();
         this.normalDifficulty.on("pointerover", () => {
             this.normalDifficulty.setColor('#FF0000');  
+        });
+        this.normalDifficulty.on("pointerout", () => {
+            this.normalDifficulty.setColor('#FFFFFF');  
         });
         this.normalDifficulty.on("pointerdown", () => {
             this.scene.start("playNormalScene")
@@ -46,6 +52,9 @@ class Difficulties extends Phaser.Scene {
         this.hardDifficulty.on("pointerover", () => {
             this.hardDifficulty.setColor('#FF0000');  
         });
+        this.hardDifficulty.on("pointerout", () => {
+            this.hardDifficulty.setColor('#FFFFFF');  
+        });
         this.hardDifficulty.on("pointerdown", () => {
             this.scene.start("playHardScene")
         });
@@ -55,6 +64,9 @@ class Difficulties extends Phaser.Scene {
         this.nightmareDifficulty.on("pointerover", () => {
             this.nightmareDifficulty.setColor('#FF0000');  
         });
+        this.nightmareDifficulty.on("pointerout", () => {
+            this.nightmareDifficulty.setColor('#FFFFFF');  
+        });
         this.nightmareDifficulty.on("pointerdown", () => {
             this.scene.start("playNightmareScene")
         })
@@ -62,7 +74,7 @@ class Difficulties extends Phaser.Scene {
    }
    
    update() {
-
+    
    }
 
 
