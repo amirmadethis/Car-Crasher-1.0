@@ -183,7 +183,7 @@ class PlayNormal extends Phaser.Scene {
 
         this.scoreText = this.add.text(this.screenCenterX - 365, this.screenCenterY + 275, "SCORE: ", textConfig).setOrigin(0.5);
         this.scoreText.depth = 11;
-        this.highScoreText = this.add.text(this.screenCenterX - 340, this.screenCenterY + 300, "HIGHSCORE: " + localStorage.getItem("HighScoreVar"), textConfig).setOrigin(0.5);
+        this.highScoreText = this.add.text(this.screenCenterX - 340, this.screenCenterY + 300, "HIGHSCORE: " + localStorage.getItem("NormalHighScoreVar"), textConfig).setOrigin(0.5);
         this.score = 0;
         this.highScore = 0;
         this.timer = this.time.addEvent({ delay: 99999999999, callback: this.onClockEvent, callbackScope: this, repeat: 1 });
