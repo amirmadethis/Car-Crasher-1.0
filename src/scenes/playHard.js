@@ -207,16 +207,15 @@ class PlayHard extends Phaser.Scene {
     }
 
     update() {
-        // adding mute function
         if(this.isMute)
         {
             // adding mute button
-            this.muteButton = this.add.image(64, 186,'mute').setOrigin(0.5);
+            this.muteButton = this.add.image(64, 186,'unMute').setOrigin(0.5);
         }
         else if(!this.isMute)
         {
             // adding mute button
-            this.muteButton = this.add.image(64, 186,'unMute').setOrigin(0.5);
+            this.muteButton = this.add.image(64, 186,'mute').setOrigin(0.5);
         }
 
         // adding pause function
