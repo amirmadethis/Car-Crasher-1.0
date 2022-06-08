@@ -24,6 +24,7 @@ class PlayHard extends Phaser.Scene {
         this.load.image('mute', './assets/sprites/mute.png');
         this.load.image('unMute', './assets/sprites/unMute.png');
         this.load.image('lives', './assets/sprites/lives.png');
+        this.load.image('modeBt', './assets/sprites/modeBt.png');
         this.load.image('gameOverBg', './assets/sprites/gameOverBG.png');
         this.load.audio("bgm", "./assets/SFX/soundtrack.wav");
         this.load.audio("hit", "./assets/SFX/hit.wav");
@@ -83,6 +84,14 @@ class PlayHard extends Phaser.Scene {
         this.pauseButton.on('pointerdown', () => {
             this.pauseUnpause();
         });
+
+        // adding switch mode button
+        this.modeButton = this.add.image(64, 247,'modeBt').setOrigin(0.5);
+        this.modeButton.setInteractive();
+        this.modeButton.on('pointerdown', () => {
+            this.scene.start('menuScene');
+            this.bgMusic.pause();
+        });   
         
         // adding reset button
         this.resetButton = this.add.image(64, 125,'reset').setOrigin(0.5);

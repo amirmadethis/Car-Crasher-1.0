@@ -27,6 +27,7 @@ class PlayNightmare extends Phaser.Scene {
         this.load.audio("hit", "./assets/SFX/hit.wav");
         this.load.image('lives', './assets/sprites/lives.png');
         this.load.image('unMute', './assets/sprites/unMute.png');
+        this.load.image('modeBt', './assets/sprites/modeBt.png');
         this.load.spritesheet('explosion', './assets/sprites/explosion.png', {frameWidth: 32, frameHeight: 32});
         this.load.image('nmleftSide', './assets/sprites/nmleftSide.png');
         this.load.image('nmrightSide', './assets/sprites/nmrightSide.png');
@@ -92,7 +93,15 @@ class PlayNightmare extends Phaser.Scene {
         this.resetButton.setInteractive();
         this.resetButton.on('pointerdown', () => {
             this.resetGame();
-        });    
+        });  
+        
+        // adding switch mode button
+        this.modeButton = this.add.image(64, 247,'modeBt').setOrigin(0.5);
+        this.modeButton.setInteractive();
+        this.modeButton.on('pointerdown', () => {
+            this.scene.start('menuScene');
+            this.bgMusic.pause();
+        });  
 
         // adding mute function
         if(this.isMute)

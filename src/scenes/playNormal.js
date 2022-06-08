@@ -23,6 +23,7 @@ class PlayNormal extends Phaser.Scene {
         this.load.image('reset', './assets/sprites/reset.png');
         this.load.image('mute', './assets/sprites/mute.png');
         this.load.image('lives', './assets/sprites/lives.png');
+        this.load.image('modeBt', './assets/sprites/modeBt.png');
         this.load.image('unMute', './assets/sprites/unMute.png');
         this.load.image('gameOverBg', './assets/sprites/gameOverBG.png');
         this.load.audio("bgm", "./assets/SFX/soundtrack.wav");
@@ -89,7 +90,15 @@ class PlayNormal extends Phaser.Scene {
         this.resetButton.setInteractive();
         this.resetButton.on('pointerdown', () => {
             this.resetGame();
-        });    
+        });
+        
+        // adding switch mode button
+        this.modeButton = this.add.image(64, 247,'modeBt').setOrigin(0.5);
+        this.modeButton.setInteractive();
+        this.modeButton.on('pointerdown', () => {
+            this.scene.start('menuScene');
+            this.bgMusic.pause();
+        });  
 
         // adding mute function
         if(this.isMute)
