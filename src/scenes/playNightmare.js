@@ -26,6 +26,9 @@ class PlayNightmare extends Phaser.Scene {
         this.load.audio("bgm", "./assets/SFX/soundtrack.wav");
         this.load.audio("hit", "./assets/SFX/hit.wav");
         this.load.image('lives', './assets/sprites/lives.png');
+        this.load.image('unMute', './assets/sprites/unMute.png');
+        this.load.image('modeBt', './assets/sprites/modeBt.png');
+        this.load.image('play', './assets/sprites/play.png');
         this.load.spritesheet('explosion', './assets/sprites/explosion.png', {frameWidth: 32, frameHeight: 32});
         this.load.image('nmleftSide', './assets/sprites/nmleftSide.png');
         this.load.image('nmrightSide', './assets/sprites/nmrightSide.png');
@@ -91,14 +94,31 @@ class PlayNightmare extends Phaser.Scene {
         this.resetButton.setInteractive();
         this.resetButton.on('pointerdown', () => {
             this.resetGame();
-        });    
+        });  
+        
+        // adding switch mode button
+        this.modeButton = this.add.image(64, 247,'modeBt').setOrigin(0.5);
+        this.modeButton.setInteractive();
+        this.modeButton.on('pointerdown', () => {
+            this.scene.start('menuScene');
+            this.bgMusic.pause();
+        });  
 
-        // adding mute button
-        this.muteButton = this.add.image(64, 186,'mute').setOrigin(0.5);
+        // adding mute function
+        if(this.isMute)
+        {
+            // adding mute button
+            this.muteButton = this.add.image(64, 186,'mute').setOrigin(0.5);
+        }
+        else if(!this.isMute)
+        {
+            // adding mute button
+            this.muteButton = this.add.image(64, 186,'unMute').setOrigin(0.5);
+        }
         this.muteButton.setInteractive();
         this.muteButton.on('pointerdown', () => {
             this.muteUnmute();
-        });  
+        }); 
 
         // add boundry sprite
         this.leftSide = this.add.tileSprite(this.screenCenterX - 188, this.screenCenterY - 4800, 101, 12000, 'nmleftSide').setOrigin(0.5);
@@ -190,6 +210,28 @@ class PlayNightmare extends Phaser.Scene {
     }
 
     update() {
+        if(this.isMute)
+        {
+            // adding mute button
+            this.muteButton = this.add.image(64, 186,'unMute').setOrigin(0.5);
+        }
+        else if(!this.isMute)
+        {
+            // adding mute button
+            this.muteButton = this.add.image(64, 186,'mute').setOrigin(0.5);
+        }
+
+        // adding pause function
+        if(this.gameIsPaused)
+        {
+            // adding play button
+            this.pauseButton = this.add.image(64, 64,'play').setOrigin(0.5);
+        }
+        else if(!this.gameIsPaused)
+        {
+            // adding pause button
+            this.pauseButton = this.add.image(64, 64,'pauseButton').setOrigin(0.5);
+        }
 
         // move car when pressing LEFT, RIGHT, UP, or DOWN arrow keys
         if (this.keyLEFT.isDown && (!this.gameIsPaused) && (!this.keyDOWN.isDown && !this.keyUP.isDown))  {
