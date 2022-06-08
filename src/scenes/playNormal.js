@@ -31,6 +31,9 @@ class PlayNormal extends Phaser.Scene {
     create() {
         this.bgMusic = this.sound.add("bgm");
 
+        // initialize hit sound
+        this.hitSound = this.sound.add("hit");
+
         let musicConfig = {
             mute: false,
             volume: 0.2,
@@ -270,6 +273,10 @@ class PlayNormal extends Phaser.Scene {
             this.enemy.setScale(2.5);
             this.physics.add.existing(this.enemy);
             this.physics.add.overlap(this.enemy, this.player, (obj1, obj2) => {
+                let hitConfig = {
+                    volume:0.2
+                };
+                this.hitSound.play(hitConfig);
                 obj1.destroy();
                 this.cameras.main.flash();
                 this.lives -= 1;
