@@ -24,6 +24,7 @@ class PlayNormal extends Phaser.Scene {
         this.load.image('mute', './assets/sprites/mute.png');
         this.load.image('lives', './assets/sprites/lives.png');
         this.load.image('modeBt', './assets/sprites/modeBt.png');
+        this.load.image('play', './assets/sprites/play.png');
         this.load.image('unMute', './assets/sprites/unMute.png');
         this.load.image('gameOverBg', './assets/sprites/gameOverBG.png');
         this.load.audio("bgm", "./assets/SFX/soundtrack.wav");
@@ -217,6 +218,18 @@ class PlayNormal extends Phaser.Scene {
         {
             // adding mute button
             this.muteButton = this.add.image(64, 186,'unMute').setOrigin(0.5);
+        }
+
+        // adding pause function
+        if(this.gameIsPaused)
+        {
+            // adding mute button
+            this.pauseButton = this.add.image(64, 64,'play').setOrigin(0.5);
+        }
+        else if(!this.gameIsPaused)
+        {
+            // adding mute button
+            this.pauseButton = this.add.image(64, 64,'pauseButton').setOrigin(0.5);
         }
 
         // move car when pressing LEFT, RIGHT, UP, or DOWN arrow keys

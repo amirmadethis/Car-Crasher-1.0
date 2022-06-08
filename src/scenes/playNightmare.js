@@ -28,6 +28,7 @@ class PlayNightmare extends Phaser.Scene {
         this.load.image('lives', './assets/sprites/lives.png');
         this.load.image('unMute', './assets/sprites/unMute.png');
         this.load.image('modeBt', './assets/sprites/modeBt.png');
+        this.load.image('play', './assets/sprites/play.png');
         this.load.spritesheet('explosion', './assets/sprites/explosion.png', {frameWidth: 32, frameHeight: 32});
         this.load.image('nmleftSide', './assets/sprites/nmleftSide.png');
         this.load.image('nmrightSide', './assets/sprites/nmrightSide.png');
@@ -219,6 +220,18 @@ class PlayNightmare extends Phaser.Scene {
         {
             // adding mute button
             this.muteButton = this.add.image(64, 186,'unMute').setOrigin(0.5);
+        }
+
+        // adding pause function
+        if(this.gameIsPaused)
+        {
+            // adding mute button
+            this.pauseButton = this.add.image(64, 64,'play').setOrigin(0.5);
+        }
+        else if(!this.gameIsPaused)
+        {
+            // adding mute button
+            this.pauseButton = this.add.image(64, 64,'pauseButton').setOrigin(0.5);
         }
 
         // move car when pressing LEFT, RIGHT, UP, or DOWN arrow keys

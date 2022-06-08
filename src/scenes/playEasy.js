@@ -21,6 +21,7 @@ class PlayEasy extends Phaser.Scene {
         this.load.image('trucks4', './assets/sprites/trucks4.png');
         this.load.image('trucks5', './assets/sprites/trucks5.png');
         this.load.image('reset', './assets/sprites/reset.png');
+        this.load.image('play', './assets/sprites/play.png');
         this.load.image('mute', './assets/sprites/mute.png');
         this.load.image('unMute', './assets/sprites/unMute.png');
         this.load.image('modeBt', './assets/sprites/modeBt.png');
@@ -224,6 +225,18 @@ class PlayEasy extends Phaser.Scene {
         {
             // adding mute button
             this.muteButton = this.add.image(64, 186,'unMute').setOrigin(0.5);
+        }
+        
+        // adding pause function
+        if(this.gameIsPaused)
+        {
+            // adding mute button
+            this.pauseButton = this.add.image(64, 64,'play').setOrigin(0.5);
+        }
+        else if(!this.gameIsPaused)
+        {
+            // adding mute button
+            this.pauseButton = this.add.image(64, 64,'pauseButton').setOrigin(0.5);
         }
 
         // move car when pressing LEFT, RIGHT, UP, or DOWN arrow keys
