@@ -148,7 +148,7 @@ class PlayEasy extends Phaser.Scene {
         
         // spawning enemies on a timer
         this.time.addEvent({
-            delay:300,
+            delay:500,
             callback: () => {
                 this.spawnObstacles();
             },
