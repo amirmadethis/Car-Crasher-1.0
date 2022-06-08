@@ -26,6 +26,7 @@ class PlayNightmare extends Phaser.Scene {
         this.load.audio("bgm", "./assets/SFX/soundtrack.wav");
         this.load.audio("hit", "./assets/SFX/hit.wav");
         this.load.image('lives', './assets/sprites/lives.png');
+        this.load.image('unMute', './assets/sprites/unMute.png');
         this.load.spritesheet('explosion', './assets/sprites/explosion.png', {frameWidth: 32, frameHeight: 32});
         this.load.image('nmleftSide', './assets/sprites/nmleftSide.png');
         this.load.image('nmrightSide', './assets/sprites/nmrightSide.png');
@@ -93,12 +94,21 @@ class PlayNightmare extends Phaser.Scene {
             this.resetGame();
         });    
 
-        // adding mute button
-        this.muteButton = this.add.image(64, 186,'mute').setOrigin(0.5);
+        // adding mute function
+        if(this.isMute)
+        {
+            // adding mute button
+            this.muteButton = this.add.image(64, 186,'mute').setOrigin(0.5);
+        }
+        else if(!this.isMute)
+        {
+            // adding mute button
+            this.muteButton = this.add.image(64, 186,'unMute').setOrigin(0.5);
+        }
         this.muteButton.setInteractive();
         this.muteButton.on('pointerdown', () => {
             this.muteUnmute();
-        });  
+        }); 
 
         // add boundry sprite
         this.leftSide = this.add.tileSprite(this.screenCenterX - 188, this.screenCenterY - 4800, 101, 12000, 'nmleftSide').setOrigin(0.5);
@@ -190,6 +200,17 @@ class PlayNightmare extends Phaser.Scene {
     }
 
     update() {
+        // adding mute function
+        if(this.isMute)
+        {
+            // adding mute button
+            this.muteButton = this.add.image(64, 186,'mute').setOrigin(0.5);
+        }
+        else if(!this.isMute)
+        {
+            // adding mute button
+            this.muteButton = this.add.image(64, 186,'unMute').setOrigin(0.5);
+        }
 
         // move car when pressing LEFT, RIGHT, UP, or DOWN arrow keys
         if (this.keyLEFT.isDown && (!this.gameIsPaused) && (!this.keyDOWN.isDown && !this.keyUP.isDown))  {
