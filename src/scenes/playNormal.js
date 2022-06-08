@@ -55,7 +55,7 @@ class PlayNormal extends Phaser.Scene {
 
         // config for text
         let textConfig = {
-            fontFamily: 'Akshar',
+            fontFamily: 'Arcade',
             fontSize : '24px',
             align: 'left',
             fixedWidth: 0,

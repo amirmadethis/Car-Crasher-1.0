@@ -3,7 +3,8 @@ class Menu extends Phaser.Scene {
         super("menuScene");
     }
     preload() {
-        this.load.image('playButton', './assets/sprites/playButton.png')
+        this.load.image('playButton', './assets/sprites/playButton.png');
+        this.load.image('creditsButton', './assets/sprites/creditsButton.png');
     }
 
     create() {
@@ -32,5 +33,11 @@ class Menu extends Phaser.Scene {
         this.playButton.on('pointerdown', () => {
             this.scene.start('difficultiesScene');
         });
+
+        this.creditsButton = this.add.sprite(this.screenCenterX, this.screenCenterY + 150, 'creditsButton').setOrigin(0.5);
+        this.creditsButton.setInteractive();
+        this.creditsButton.on('pointerdown', () => {
+            this.scene.start('creditsScene')
+        })
     }
 }
