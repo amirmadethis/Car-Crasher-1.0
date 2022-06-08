@@ -100,9 +100,9 @@ class PlayHard extends Phaser.Scene {
         this.street = this.add.tileSprite(this.screenCenterX, this.screenCenterY - 4800, 320, 12000, 'street').setOrigin(0.5);
 
         // add text 
-        this.add.text(this.screenCenterX + 290, this.screenCenterY - 40, "How To Play", textConfig);
-        this.add.text(this.screenCenterX + 270, this.screenCenterY, "left⬅️|➡️right", textConfig);
-        this.add.text(this.screenCenterX + 275, this.screenCenterY + 40, "up ⬆️|⬇️down", textConfig);
+        this.add.text(this.screenCenterX + 285, this.screenCenterY + 225, "  Controls  ", textConfig);
+        this.add.text(this.screenCenterX + 270, this.screenCenterY + 255, "left⬅️|➡️right", textConfig);
+        this.add.text(this.screenCenterX + 275, this.screenCenterY + 280, "up ⬆️|⬇️down", textConfig);
 
         // establishing keybind
         this.keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
